@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket, UploadFile, File
+from components.kg_cypher import KG2Cypher
 
 import llms
 from components.enums import LanguageEnum
@@ -28,18 +29,26 @@ async def websocket_endpoint(websocket: WebSocket):
         if msg_type == "kg":
             await websocket.send_json({"action": "acc", "data": request_json})
             filename = request_json.get("filename", "test.txt")
-            model_name = request_json.get("model_name", "gpt-4")
-            llm = llms.get_llm(model_name=model_name)
+            modelname = request_json.get("modelname", "gpt-4")
+            llm = llms.get_llm(model_name=modelname)
             schema = request_json.get("schema", None)
-            e = ExtractKG(llm, LanguageEnum.zh)
+            example = request_json.get("example", None)
+            e = ExtractKG(llm, LanguageEnum.zh, example=example)
 
             with open("static/" + filename, "r", encoding="utf8") as f:
                 result = e.extract(f.read())
                 await websocket.send_json({"action": "kg", "data": result})
 
+            c = KG2Cypher(llm=llm, schema=None)
+            cypher = c.process(result)
+            print(cypher)
+
+            await websocket.send_json({"action": "cypher", "data": cypher})
 
         elif msg_type == "start":
-            await websocket.send_json({"type": "extract", "message": "start extract data ===="})
+            await websocket.send_json(
+                {"type": "extract", "message": "start extract data ===="}
+            )
 
 
 if __name__ == "__main__":

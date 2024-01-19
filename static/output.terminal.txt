@@ -1,0 +1,806 @@
+2024-01-18 16:30:00
+
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15021]
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 106
+    print(data)
+               ^
+IndentationError: unindent does not match any outer indentation level
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Started server process [15040]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15040]
+INFO:     Started server process [15047]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     ('127.0.0.1', 61446) - "WebSocket /t2c" [accepted]
+INFO:     connection open
+2024-01-18 16:24:53 extract_kg.py [line:28] INFO        : request_to_ai messages: [{'role': 'system', 'content': '\n你是一名数据科学家，在一家正在构建图形数据库的公司工作。您的任务是从文本数据中提取信息并将其转换为图形数据库中适用的格式。\n请以[ENTITY_ID, TYPE, PROPERTIES]的形式提取一组节点，并以[ENTITY_ID_1, RELATIONSHIP, ENTITY_ID_2, PROPERTIES]的形式提取一组关系。\n需要注意，ENTITY_ID_1和ENTITY_ID_2应当具有匹配ENTITY_ID的节点存在。如果你不能将一个关系与一对节点配对，那就不要添加它。\n当您找到想要添加的节点或关系时，请尝试为其创建描述实体的抽象TYPE，您也可以将其视为标签。请直接输出您提取出的节点和关系，不要输出任何分析过程。\n\n例子:\n\n文本数据:李薇是律师，今年25岁，Bob从2001年起就是她的室友。Bob是一名记者。李薇拥有网页www.liwei.com, Bob拥有网页www.bob.com。\nNodes:\n- ["LiWei", "Person", {"age":25, "job":"律师"、"name":"李薇"}]\n- ["Bob", "Person", {"job":"记者","name":"Bob"}]\n- ["liwei.com", "Website", {"url": "www.liwei.com"}]\n- ["bob.com", "Website", {"url": "www.bob.com"}]\nRelationships:\n- ["LiWei", "roommate", "Bob", {"start":2021}]\n- ["LiWei", "owns", "liwei.com", {}]\n- ["Bob", "owns", "bob.com", {}]\n\n'}, {'role': 'user', 'content': '\n文本数据: 一个名叫浩瀚科技的创业公司里，总裁李伟是一位远见卓识的领导者。他的团队由四个部门组成：研发部、市场部、人事部和财务部。每个部门的负责人分别是：张婷（研发部部长）、韩梅（市场部部长）、赵强（人事部部长）和孙浩（财务部部长）。\n研发部由三个小组组成，分别是算法组、软件开发组和人工智能小组。算法组组长为王磊，他手下有两名资深工程师李远和徐晓明。软件开发组由陈燕作为组长，她的团队有包括刘颖和黄志强在内的三名成员。人工智能小组则是由周杰带领，小组内有资深研究员张华和新晋工程师李思。\n市场部主要负责产品推广和销售，团队由五名成员组成，包括市场策划师王晓丽、数据分析师林涛、客户经理刘倩、媒介专员赵天宇和网络营销师徐杰。他们致力于提升浩瀚科技在行业内的影响力。\n人事部的职责是为公司其他部门提供人才支持和管理公司员工关系。赵强下属包括招聘专员孙玲和员工关系主管马超。\n财务部则是由孙浩领导，下辖会计师杜慧和财务分析师周雷，他们负责公司的资金流动和预算分配。\n浩瀚科技的主要产品是一款名为“星云浏览器”的软件，它集成了张婷领导下研发部门的最新研究成果，包括王磊提出的创新算法。市场部的韩梅和她的团队通过微信、微博等社交平台做了广泛宣传，数据分析师林涛通过对数据的深入分析为推广策略提供了数据支持。人事部的赵强和他的团队为研发部门招募了人工智能领域的顶尖人才，为产品的创新奠定了基础。财务部的孙浩则为产品投入的研发和营销提供了充足的资金保障。\n公司的主要客户包括华为、小米和OPPO等知名手机制造商，他们使用“星云浏览器”作为默认浏览器，为用户提供更优质的网络体验。此外，浩瀚科技还与京东商城建立了合作，通过电商平台销售旗下的其他智能软件产品。\n在公司快速发展的过程中，李伟与各部门经理保持着频繁的沟通与协作。他经常邀请张婷一起参与产品研发的高层讨论，同时，韩梅提出的市场推广方案也得到了李伟的高度认可。为了优化公司的内部管理，赵强与孙浩经常开会讨论如何更有效地管理人力和财力资源。\n通过良好的管理和团队协作，浩瀚科技在李伟的领导下不断突破技术瓶颈，创造了许多行业瞩目的成果，为公司赢得了良好的市场声誉和经济效益。随着业务的拓展和合作伙伴的增多，浩瀚科技的未来充满了无限的可能。\n\n'}]
+Nodes:
+- ["HaohanTech", "Company", {"name":"浩瀚科技"}]
+- ["LiWei", "Person", {"job":"总裁", "name":"李伟"}]
+- ["ZhangTing", "Person", {"job":"研发部部长", "name":"张婷"}]
+- ["HanMei", "Person", {"job":"市场部部长", "name":"韩梅"}]
+- ["ZhaoQiang", "Person", {"job":"人事部部长", "name":"赵强"}]
+- ["SunHao", "Person", {"job":"财务部部长", "name":"孙浩"}]
+- ["WangLei", "Person", {"job":"算法组组长", "name":"王磊"}]
+- ["ChenYan", "Person", {"job":"软件开发组组长", "name":"陈燕"}]
+- ["ZhouJie", "Person", {"job":"人工智能小组组长", "name":"周杰"}]
+- ["XingyunBrowser", "Product", {"name":"星云浏览器"}]
+- ["Huawei", "Company", {"name":"华为"}]
+- ["Xiaomi", "Company", {"name":"小米"}]
+- ["OPPO", "Company", {"name":"OPPO"}]
+- ["JD", "Company", {"name":"京东商城"}]
+
+Relationships:
+- ["HaohanTech", "has_employee", "LiWei", {}]
+- ["HaohanTech", "has_employee", "ZhangTing", {}]
+- ["HaohanTech", "has_employee", "HanMei", {}]
+- ["HaohanTech", "has_employee", "ZhaoQiang", {}]
+- ["HaohanTech", "has_employee", "SunHao", {}]
+- ["HaohanTech", "has_employee", "WangLei", {}]
+- ["HaohanTech", "has_employee", "ChenYan", {}]
+- ["HaohanTech", "has_employee", "ZhouJie", {}]
+- ["HaohanTech", "produces", "XingyunBrowser", {}]
+- ["Huawei", "uses", "XingyunBrowser", {}]
+- ["Xiaomi", "uses", "XingyunBrowser", {}]
+- ["OPPO", "uses", "XingyunBrowser", {}]
+- ["HaohanTech", "partners_with", "JD", {}]
+- ["LiWei", "collaborates_with", "ZhangTing", {}]
+- ["LiWei", "collaborates_with", "HanMei", {}]
+- ["LiWei", "collaborates_with", "ZhaoQiang", {}]
+- ["LiWei", "collaborates_with", "SunHao", {}]2024-01-18 16:26:09 extract_kg.py [line:31] INFO  : request_to_ai res: Nodes:
+- ["HaohanTech", "Company", {"name":"浩瀚科技"}]
+- ["LiWei", "Person", {"job":"总裁", "name":"李伟"}]
+- ["ZhangTing", "Person", {"job":"研发部部长", "name":"张婷"}]
+- ["HanMei", "Person", {"job":"市场部部长", "name":"韩梅"}]
+- ["ZhaoQiang", "Person", {"job":"人事部部长", "name":"赵强"}]
+- ["SunHao", "Person", {"job":"财务部部长", "name":"孙浩"}]
+- ["WangLei", "Person", {"job":"算法组组长", "name":"王磊"}]
+- ["ChenYan", "Person", {"job":"软件开发组组长", "name":"陈燕"}]
+- ["ZhouJie", "Person", {"job":"人工智能小组组长", "name":"周杰"}]
+- ["XingyunBrowser", "Product", {"name":"星云浏览器"}]
+- ["Huawei", "Company", {"name":"华为"}]
+- ["Xiaomi", "Company", {"name":"小米"}]
+- ["OPPO", "Company", {"name":"OPPO"}]
+- ["JD", "Company", {"name":"京东商城"}]
+
+Relationships:
+- ["HaohanTech", "has_employee", "LiWei", {}]
+- ["HaohanTech", "has_employee", "ZhangTing", {}]
+- ["HaohanTech", "has_employee", "HanMei", {}]
+- ["HaohanTech", "has_employee", "ZhaoQiang", {}]
+- ["HaohanTech", "has_employee", "SunHao", {}]
+- ["HaohanTech", "has_employee", "WangLei", {}]
+- ["HaohanTech", "has_employee", "ChenYan", {}]
+- ["HaohanTech", "has_employee", "ZhouJie", {}]
+- ["HaohanTech", "produces", "XingyunBrowser", {}]
+- ["Huawei", "uses", "XingyunBrowser", {}]
+- ["Xiaomi", "uses", "XingyunBrowser", {}]
+- ["OPPO", "uses", "XingyunBrowser", {}]
+- ["HaohanTech", "partners_with", "JD", {}]
+- ["LiWei", "collaborates_with", "ZhangTing", {}]
+- ["LiWei", "collaborates_with", "HanMei", {}]
+- ["LiWei", "collaborates_with", "ZhaoQiang", {}]
+- ["LiWei", "collaborates_with", "SunHao", {}]
+====
+{'nodes': [{'name': 'HaohanTech', 'label': 'Company', 'properties': {'name': '浩瀚科技'}}, {'name': 'LiWei', 'label': 'Person', 'properties': {'job': '总裁', 'name': '李伟'}}, {'name': 'ZhangTing', 'label': 'Person', 'properties': {'job': '研发部部长', 'name': '张婷'}}, {'name': 'HanMei', 'label': 'Person', 'properties': {'job': '市场部部长', 'name': '韩梅'}}, {'name': 'ZhaoQiang', 'label': 'Person', 'properties': {'job': '人事部部长', 'name': '赵强'}}, {'name': 'SunHao', 'label': 'Person', 'properties': {'job': '财务部部长', 'name': '孙浩'}}, {'name': 'WangLei', 'label': 'Person', 'properties': {'job': '算法组组长', 'name': '王磊'}}, {'name': 'ChenYan', 'label': 'Person', 'properties': {'job': '软件开发组组长', 'name': '陈燕'}}, {'name': 'ZhouJie', 'label': 'Person', 'properties': {'job': '人工智能小组组长', 'name': '周杰'}}, {'name': 'XingyunBrowser', 'label': 'Product', 'properties': {'name': '星云浏览器'}}, {'name': 'Huawei', 'label': 'Company', 'properties': {'name': '华为'}}, {'name': 'Xiaomi', 'label': 'Company', 'properties': {'name': '小米'}}, {'name': 'OPPO', 'label': 'Company', 'properties': {'name': 'OPPO'}}, {'name': 'JD', 'label': 'Company', 'properties': {'name': '京东商城'}}], 'relationships': [{'start': 'HaohanTech', 'end': 'LiWei', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'ZhangTing', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'HanMei', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'ZhaoQiang', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'SunHao', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'WangLei', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'ChenYan', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'ZhouJie', 'type': 'has_employee', 'properties': {}}, {'start': 'HaohanTech', 'end': 'XingyunBrowser', 'type': 'produces', 'properties': {}}, {'start': 'Huawei', 'end': 'XingyunBrowser', 'type': 'uses', 'properties': {}}, {'start': 'Xiaomi', 'end': 'XingyunBrowser', 'type': 'uses', 'properties': {}}, {'start': 'OPPO', 'end': 'XingyunBrowser', 'type': 'uses', 'properties': {}}, {'start': 'HaohanTech', 'end': 'JD', 'type': 'partners_with', 'properties': {}}, {'start': 'LiWei', 'end': 'ZhangTing', 'type': 'collaborates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'HanMei', 'type': 'collaborates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'ZhaoQiang', 'type': 'collaborates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'SunHao', 'type': 'collaborates_with', 'properties': {}}]}
+====
+====
+{'nodes': [{'name': 'HaohanTech', 'label': 'Company', 'properties': {'name': '浩瀚科技'}}, {'name': 'LiWei', 'label': 'Person', 'properties': {'job': '总裁', 'name': '李伟'}}, {'name': 'ZhangTing', 'label': 'Person', 'properties': {'job': '研发部部长', 'name': '张婷'}}, {'name': 'HanMei', 'label': 'Person', 'properties': {'job': '市场部部长', 'name': '韩梅'}}, {'name': 'ZhaoQiang', 'label': 'Person', 'properties': {'job': '人事部部长', 'name': '赵强'}}, {'name': 'SunHao', 'label': 'Person', 'properties': {'job': '财务部部长', 'name': '孙浩'}}, {'name': 'WangLei', 'label': 'Person', 'properties': {'job': '算法组组长', 'name': '王磊'}}, {'name': 'ChenYan', 'label': 'Person', 'properties': {'job': '软件开发组组长', 'name': '陈燕'}}, {'name': 'ZhouJie', 'label': 'Person', 'properties': {'job': '人工智能小组组长', 'name': '周杰'}}, {'name': 'XingyunBrowser', 'label': 'Product', 'properties': {'name': '星云浏览器'}}, {'name': 'Huawei', 'label': 'Company', 'properties': {'name': '华为'}}, {'name': 'Xiaomi', 'label': 'Company', 'properties': {'name': '小米'}}, {'name': 'OPPO', 'label': 'Company', 'properties': {'name': 'OPPO'}}, {'name': 'JD', 'label': 'Company', 'properties': {'name': '京东商城'}}], 'relationships': []}
+====
+2024-01-18 16:26:09 extract_kg.py [line:66] DEBUG       : duplicated_node_relationships{'nodes': [{'name': 'HaohanTech', 'label': 'Company', 'properties': {'name': '浩瀚科技'}}, {'name': 'LiWei', 'label': 'Person', 'properties': {'job': '总裁', 'name': '李伟'}}, {'name': 'ZhangTing', 'label': 'Person', 'properties': {'job': '研发部部长', 'name': '张婷'}}, {'name': 'HanMei', 'label': 'Person', 'properties': {'job': '市场部部长', 'name': '韩梅'}}, {'name': 'ZhaoQiang', 'label': 'Person', 'properties': {'job': '人事部部长', 'name': '赵强'}}, {'name': 'SunHao', 'label': 'Person', 'properties': {'job': '财务部部长', 'name': '孙浩'}}, {'name': 'WangLei', 'label': 'Person', 'properties': {'job': '算法组组长', 'name': '王磊'}}, {'name': 'ChenYan', 'label': 'Person', 'properties': {'job': '软件开发组组长', 'name': '陈燕'}}, {'name': 'ZhouJie', 'label': 'Person', 'properties': {'job': '人工智能小组组长', 'name': '周杰'}}, {'name': 'XingyunBrowser', 'label': 'Product', 'properties': {'name': '星云浏览器'}}, {'name': 'Huawei', 'label': 'Company', 'properties': {'name': '华为'}}, {'name': 'Xiaomi', 'label': 'Company', 'properties': {'name': '小米'}}, {'name': 'OPPO', 'label': 'Company', 'properties': {'name': 'OPPO'}}, {'name': 'JD', 'label': 'Company', 'properties': {'name': '京东商城'}}], 'relationships': []}
+```cypher
+CALL apoc.load.json('file:///path/to/your/json') YIELD value AS data
+UNWIND data.nodes AS node
+MERGE (n {name: node.name})
+SET n = node.properties
+SET n:Person
+UNWIND data.relationships AS rel
+MATCH (start {name: rel.start}), (end {name: rel.end})
+MERGE (start)-[r:WORKS_FOR]->(end)
+SET r = rel.properties
+```CALL apoc.load.json('file:///path/to/your/json') YIELD value AS data
+UNWIND data.nodes AS node
+MERGE (n {name: node.name})
+SET n = node.properties
+SET n:Person
+UNWIND data.relationships AS rel
+MATCH (start {name: rel.start}), (end {name: rel.end})
+MERGE (start)-[r:WORKS_FOR]->(end)
+SET r = rel.properties
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 254, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 762, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 782, in app
+    await route.handle(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 373, in handle
+    await self.app(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 96, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 94, in app
+    await func(session)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/fastapi/routing.py", line 360, in app
+    await dependant.call(**values)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 26, in websocket_endpoint
+    data = await websocket.receive_json()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/websockets.py", line 133, in receive_json
+    self._raise_on_disconnect(message)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/websockets.py", line 105, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+INFO:     connection closed
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15047]
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = 
+                 ^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Started server process [15189]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15189]
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for ]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for node in ]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for node in merged_nodes.]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for node in merged_nodes.values]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for node in merged_nodes.values()]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for node in (merged_nodes.values())]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [for node in list(merged_nodes.values())]
+                  ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 2, in <module>
+    from components.kg_cypher import KG2Cypher
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/kg_cypher.py", line 5, in <module>
+    from components.extract_data import extract_cypher_from_rawtext
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/components/extract_data.py", line 121
+    node_names = [node.for node in list(merged_nodes.values())]
+                       ^^^
+SyntaxError: invalid syntax
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Started server process [15253]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15253]
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Started server process [15274]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15274]
+INFO:     Started server process [15281]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     ('127.0.0.1', 61604) - "WebSocket /t2c" [accepted]
+INFO:     connection open
+2024-01-18 16:32:45 extract_kg.py [line:28] INFO        : request_to_ai messages: [{'role': 'system', 'content': '\n你是一名数据科学家，在一家正在构建图形数据库的公司工作。您的任务是从文本数据中提取信息并将其转换为图形数据库中适用的格式。\n请以[ENTITY_ID, TYPE, PROPERTIES]的形式提取一组节点，并以[ENTITY_ID_1, RELATIONSHIP, ENTITY_ID_2, PROPERTIES]的形式提取一组关系。\n需要注意，ENTITY_ID_1和ENTITY_ID_2应当具有匹配ENTITY_ID的节点存在。如果你不能将一个关系与一对节点配对，那就不要添加它。\n当您找到想要添加的节点或关系时，请尝试为其创建描述实体的抽象TYPE，您也可以将其视为标签。请直接输出您提取出的节点和关系，不要输出任何分析过程。\n\n例子:\n\n文本数据:李薇是律师，今年25岁，Bob从2001年起就是她的室友。Bob是一名记者。李薇拥有网页www.liwei.com, Bob拥有网页www.bob.com。\nNodes:\n- ["LiWei", "Person", {"age":25, "job":"律师"、"name":"李薇"}]\n- ["Bob", "Person", {"job":"记者","name":"Bob"}]\n- ["liwei.com", "Website", {"url": "www.liwei.com"}]\n- ["bob.com", "Website", {"url": "www.bob.com"}]\nRelationships:\n- ["LiWei", "roommate", "Bob", {"start":2021}]\n- ["LiWei", "owns", "liwei.com", {}]\n- ["Bob", "owns", "bob.com", {}]\n\n'}, {'role': 'user', 'content': '\n文本数据: 一个名叫浩瀚科技的创业公司里，总裁李伟是一位远见卓识的领导者。他的团队由四个部门组成：研发部、市场部、人事部和财务部。每个部门的负责人分别是：张婷（研发部部长）、韩梅（市场部部长）、赵强（人事部部长）和孙浩（财务部部长）。\n研发部由三个小组组成，分别是算法组、软件开发组和人工智能小组。算法组组长为王磊，他手下有两名资深工程师李远和徐晓明。软件开发组由陈燕作为组长，她的团队有包括刘颖和黄志强在内的三名成员。人工智能小组则是由周杰带领，小组内有资深研究员张华和新晋工程师李思。\n市场部主要负责产品推广和销售，团队由五名成员组成，包括市场策划师王晓丽、数据分析师林涛、客户经理刘倩、媒介专员赵天宇和网络营销师徐杰。他们致力于提升浩瀚科技在行业内的影响力。\n人事部的职责是为公司其他部门提供人才支持和管理公司员工关系。赵强下属包括招聘专员孙玲和员工关系主管马超。\n财务部则是由孙浩领导，下辖会计师杜慧和财务分析师周雷，他们负责公司的资金流动和预算分配。\n浩瀚科技的主要产品是一款名为“星云浏览器”的软件，它集成了张婷领导下研发部门的最新研究成果，包括王磊提出的创新算法。市场部的韩梅和她的团队通过微信、微博等社交平台做了广泛宣传，数据分析师林涛通过对数据的深入分析为推广策略提供了数据支持。人事部的赵强和他的团队为研发部门招募了人工智能领域的顶尖人才，为产品的创新奠定了基础。财务部的孙浩则为产品投入的研发和营销提供了充足的资金保障。\n公司的主要客户包括华为、小米和OPPO等知名手机制造商，他们使用“星云浏览器”作为默认浏览器，为用户提供更优质的网络体验。此外，浩瀚科技还与京东商城建立了合作，通过电商平台销售旗下的其他智能软件产品。\n在公司快速发展的过程中，李伟与各部门经理保持着频繁的沟通与协作。他经常邀请张婷一起参与产品研发的高层讨论，同时，韩梅提出的市场推广方案也得到了李伟的高度认可。为了优化公司的内部管理，赵强与孙浩经常开会讨论如何更有效地管理人力和财力资源。\n通过良好的管理和团队协作，浩瀚科技在李伟的领导下不断突破技术瓶颈，创造了许多行业瞩目的成果，为公司赢得了良好的市场声誉和经济效益。随着业务的拓展和合作伙伴的增多，浩瀚科技的未来充满了无限的可能。\n\n'}]
+Nodes:
+- ["HaohanTech", "Company", {"name": "浩瀚科技"}]
+- ["LiWei", "Person", {"job":"总裁", "name":"李伟"}]
+- ["ZhangTing", "Person", {"job":"研发部部长", "name":"张婷"}]
+- ["HanMei", "Person", {"job":"市场部部长", "name":"韩梅"}]
+- ["ZhaoQiang", "Person", {"job":"人事部部长", "name":"赵强"}]
+- ["SunHao", "Person", {"job":"财务部部长", "name":"孙浩"}]
+- ["XingyunBrowser", "Product", {"name":"星云浏览器"}]
+- ["Huawei", "Company", {"name":"华为"}]
+- ["Xiaomi", "Company", {"name":"小米"}]
+- ["OPPO", "Company", {"name":"OPPO"}]
+- ["JingdongMall", "Company", {"name":"京东商城"}]
+
+Relationships:
+- ["HaohanTech", "led_by", "LiWei", {}]
+- ["HaohanTech", "has_department_head", "ZhangTing", {"department":"研发部"}]
+- ["HaohanTech", "has_department_head", "HanMei", {"department":"市场部"}]
+- ["HaohanTech", "has_department_head", "ZhaoQiang", {"department":"人事部"}]
+- ["HaohanTech", "has_department_head", "SunHao", {"department":"财务部"}]
+- ["HaohanTech", "produces", "XingyunBrowser", {}]
+- ["Huawei", "uses", "XingyunBrowser", {}]
+- ["Xiaomi", "uses", "XingyunBrowser", {}]
+- ["OPPO", "uses", "XingyunBrowser", {}]
+- ["HaohanTech", "cooperates_with", "JingdongMall", {}]
+- ["LiWei", "communicates_with", "ZhangTing", {}]
+- ["LiWei", "communicates_with", "HanMei", {}]
+- ["LiWei", "communicates_with", "ZhaoQiang", {}]
+- ["LiWei", "communicates_with", "SunHao", {}]2024-01-18 16:33:55 extract_kg.py [line:31] INFO  : request_to_ai res: Nodes:
+- ["HaohanTech", "Company", {"name": "浩瀚科技"}]
+- ["LiWei", "Person", {"job":"总裁", "name":"李伟"}]
+- ["ZhangTing", "Person", {"job":"研发部部长", "name":"张婷"}]
+- ["HanMei", "Person", {"job":"市场部部长", "name":"韩梅"}]
+- ["ZhaoQiang", "Person", {"job":"人事部部长", "name":"赵强"}]
+- ["SunHao", "Person", {"job":"财务部部长", "name":"孙浩"}]
+- ["XingyunBrowser", "Product", {"name":"星云浏览器"}]
+- ["Huawei", "Company", {"name":"华为"}]
+- ["Xiaomi", "Company", {"name":"小米"}]
+- ["OPPO", "Company", {"name":"OPPO"}]
+- ["JingdongMall", "Company", {"name":"京东商城"}]
+
+Relationships:
+- ["HaohanTech", "led_by", "LiWei", {}]
+- ["HaohanTech", "has_department_head", "ZhangTing", {"department":"研发部"}]
+- ["HaohanTech", "has_department_head", "HanMei", {"department":"市场部"}]
+- ["HaohanTech", "has_department_head", "ZhaoQiang", {"department":"人事部"}]
+- ["HaohanTech", "has_department_head", "SunHao", {"department":"财务部"}]
+- ["HaohanTech", "produces", "XingyunBrowser", {}]
+- ["Huawei", "uses", "XingyunBrowser", {}]
+- ["Xiaomi", "uses", "XingyunBrowser", {}]
+- ["OPPO", "uses", "XingyunBrowser", {}]
+- ["HaohanTech", "cooperates_with", "JingdongMall", {}]
+- ["LiWei", "communicates_with", "ZhangTing", {}]
+- ["LiWei", "communicates_with", "HanMei", {}]
+- ["LiWei", "communicates_with", "ZhaoQiang", {}]
+- ["LiWei", "communicates_with", "SunHao", {}]
+====
+{'nodes': [{'name': 'HaohanTech', 'label': 'Company', 'properties': {'name': '浩瀚科技'}}, {'name': 'LiWei', 'label': 'Person', 'properties': {'job': '总裁', 'name': '李伟'}}, {'name': 'ZhangTing', 'label': 'Person', 'properties': {'job': '研发部部长', 'name': '张婷'}}, {'name': 'HanMei', 'label': 'Person', 'properties': {'job': '市场部部长', 'name': '韩梅'}}, {'name': 'ZhaoQiang', 'label': 'Person', 'properties': {'job': '人事部部长', 'name': '赵强'}}, {'name': 'SunHao', 'label': 'Person', 'properties': {'job': '财务部部长', 'name': '孙浩'}}, {'name': 'XingyunBrowser', 'label': 'Product', 'properties': {'name': '星云浏览器'}}, {'name': 'Huawei', 'label': 'Company', 'properties': {'name': '华为'}}, {'name': 'Xiaomi', 'label': 'Company', 'properties': {'name': '小米'}}, {'name': 'OPPO', 'label': 'Company', 'properties': {'name': 'OPPO'}}, {'name': 'JingdongMall', 'label': 'Company', 'properties': {'name': '京东商城'}}], 'relationships': [{'start': 'HaohanTech', 'end': 'LiWei', 'type': 'led_by', 'properties': {}}, {'start': 'HaohanTech', 'end': 'ZhangTing', 'type': 'has_department_head', 'properties': {'department': '研发部'}}, {'start': 'HaohanTech', 'end': 'HanMei', 'type': 'has_department_head', 'properties': {'department': '市场部'}}, {'start': 'HaohanTech', 'end': 'ZhaoQiang', 'type': 'has_department_head', 'properties': {'department': '人事部'}}, {'start': 'HaohanTech', 'end': 'SunHao', 'type': 'has_department_head', 'properties': {'department': '财务部'}}, {'start': 'HaohanTech', 'end': 'XingyunBrowser', 'type': 'produces', 'properties': {}}, {'start': 'Huawei', 'end': 'XingyunBrowser', 'type': 'uses', 'properties': {}}, {'start': 'Xiaomi', 'end': 'XingyunBrowser', 'type': 'uses', 'properties': {}}, {'start': 'OPPO', 'end': 'XingyunBrowser', 'type': 'uses', 'properties': {}}, {'start': 'HaohanTech', 'end': 'JingdongMall', 'type': 'cooperates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'ZhangTing', 'type': 'communicates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'HanMei', 'type': 'communicates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'ZhaoQiang', 'type': 'communicates_with', 'properties': {}}, {'start': 'LiWei', 'end': 'SunHao', 'type': 'communicates_with', 'properties': {}}]}
+====
+====
+{'nodes': [{'name': 'HaohanTech', 'label': 'Company', 'properties': {'name': '浩瀚科技'}}, {'name': 'LiWei', 'label': 'Person', 'properties': {'job': '总裁', 'name': '李伟'}}, {'name': 'ZhangTing', 'label': 'Person', 'properties': {'job': '研发部部长', 'name': '张婷'}}, {'name': 'HanMei', 'label': 'Person', 'properties': {'job': '市场部部长', 'name': '韩梅'}}, {'name': 'ZhaoQiang', 'label': 'Person', 'properties': {'job': '人事部部长', 'name': '赵强'}}, {'name': 'SunHao', 'label': 'Person', 'properties': {'job': '财务部部长', 'name': '孙浩'}}, {'name': 'XingyunBrowser', 'label': 'Product', 'properties': {'name': '星云浏览器'}}, {'name': 'Huawei', 'label': 'Company', 'properties': {'name': '华为'}}, {'name': 'Xiaomi', 'label': 'Company', 'properties': {'name': '小米'}}, {'name': 'OPPO', 'label': 'Company', 'properties': {'name': 'OPPO'}}, {'name': 'JingdongMall', 'label': 'Company', 'properties': {'name': '京东商城'}}], 'relationships': []}
+====
+2024-01-18 16:33:55 extract_kg.py [line:66] DEBUG       : duplicated_node_relationships{'nodes': [{'name': 'HaohanTech', 'label': 'Company', 'properties': {'name': '浩瀚科技'}}, {'name': 'LiWei', 'label': 'Person', 'properties': {'job': '总裁', 'name': '李伟'}}, {'name': 'ZhangTing', 'label': 'Person', 'properties': {'job': '研发部部长', 'name': '张婷'}}, {'name': 'HanMei', 'label': 'Person', 'properties': {'job': '市场部部长', 'name': '韩梅'}}, {'name': 'ZhaoQiang', 'label': 'Person', 'properties': {'job': '人事部部长', 'name': '赵强'}}, {'name': 'SunHao', 'label': 'Person', 'properties': {'job': '财务部部长', 'name': '孙浩'}}, {'name': 'XingyunBrowser', 'label': 'Product', 'properties': {'name': '星云浏览器'}}, {'name': 'Huawei', 'label': 'Company', 'properties': {'name': '华为'}}, {'name': 'Xiaomi', 'label': 'Company', 'properties': {'name': '小米'}}, {'name': 'OPPO', 'label': 'Company', 'properties': {'name': 'OPPO'}}, {'name': 'JingdongMall', 'label': 'Company', 'properties': {'name': '京东商城'}}], 'relationships': []}
+```cypher
+CALL apoc.load.json("file:///path/to/your/json/file.json") YIELD value AS data
+UNWIND data.nodes AS node
+MERGE (n:Node {name: node.name})
+ON CREATE SET n += node.properties, n:node.label
+
+WITH data
+UNWIND data.relationships AS rel
+MATCH (startNode:Node {name: rel.start}), (endNode:Node {name: rel.end})
+MERGE (startNode)-[r:RELATIONSHIP {type: rel.type}]->(endNode)
+ON CREATE SET r += rel.properties
+```CALL apoc.load.json("file:///path/to/your/json/file.json") YIELD value AS data
+UNWIND data.nodes AS node
+MERGE (n:Node {name: node.name})
+ON CREATE SET n += node.properties, n:node.label
+
+WITH data
+UNWIND data.relationships AS rel
+MATCH (startNode:Node {name: rel.start}), (endNode:Node {name: rel.end})
+MERGE (startNode)-[r:RELATIONSHIP {type: rel.type}]->(endNode)
+ON CREATE SET r += rel.properties
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 254, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 762, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 782, in app
+    await route.handle(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 373, in handle
+    await self.app(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 96, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/routing.py", line 94, in app
+    await func(session)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/fastapi/routing.py", line 360, in app
+    await dependant.call(**values)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallm/main.py", line 26, in websocket_endpoint
+    data = await websocket.receive_json()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/websockets.py", line 133, in receive_json
+    self._raise_on_disconnect(message)
+  File "/Users/I745173/Documents/workspace/projects/nallm/nallmenv/lib/python3.11/site-packages/starlette/websockets.py", line 105, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+INFO:     connection closed
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15281]
+INFO:     Started server process [15404]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15404]
+INFO:     Started server process [15414]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15414]
+INFO:     Started server process [15431]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15431]
+INFO:     Started server process [15441]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15441]
+INFO:     Started server process [15449]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15449]
+INFO:     Started server process [15457]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15457]
+INFO:     Started server process [15464]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15464]
+INFO:     Started server process [15471]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15471]
+INFO:     Started server process [15490]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15490]
+INFO:     Started server process [15501]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15501]
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Started server process [15514]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15514]
+INFO:     Started server process [15517]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15517]
+INFO:     Started server process [15524]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15524]
+INFO:     Started server process [15527]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15527]
+INFO:     Started server process [15537]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15537]
+INFO:     Started server process [15542]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15542]
+INFO:     Started server process [15546]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15546]
+INFO:     Started server process [15551]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15551]
+INFO:     Started server process [15552]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15552]
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Started server process [15560]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15560]
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Started server process [15574]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15574]
+INFO:     Started server process [15576]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15576]
+INFO:     Started server process [15588]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15588]
+INFO:     Started server process [15596]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15596]
+INFO:     Started server process [15607]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15607]
+INFO:     Started server process [15617]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15617]
+WARNING:  WatchFiles detected changes in 'components/extract_data.py'. Reloading...
+INFO:     Started server process [15625]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15625]
+INFO:     Started server process [15641]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15641]
+WARNING:  WatchFiles detected changes in 'test/extract_data_test.py'. Reloading...
+INFO:     Started server process [15651]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+^CINFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15651]
+INFO:     Stopping reloader process [13822]
+(nallmenv) I745173@C02F41FXMD6M nallm % 
+
+

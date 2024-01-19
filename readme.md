@@ -697,3 +697,203 @@ extract nodes and relationships
 }
 ```
 
+
+## test case 2
+
+prompts
+
+```text
+你是一名数据科学家，在一家正在构建图形数据库的公司工作。您的任务是从文本数据中提取信息并将其转换为图形数据库中适用的格式。
+请以[ENTITY_ID, TYPE, PROPERTIES]的形式提取一组节点，并以[ENTITY_ID_1, RELATIONSHIP, ENTITY_ID_2, PROPERTIES]的形式提取一组关系。
+需要注意，ENTITY_ID_1和ENTITY_ID_2应当具有匹配ENTITY_ID的节点存在。如果你不能将一个关系与一对节点配对，那就不要添加它。
+当您找到想要添加的节点或关系时，请尝试为其创建描述实体的抽象TYPE，您也可以将其视为标签。请直接输出您提取出的节点和关系，不要输出任何分析过程。
+
+例子:
+
+文本数据:李薇是律师，今年25岁，Bob从2001年起就是她的室友。Bob是一名记者。李薇拥有网页www.liwei.com, Bob拥有网页www.bob.com。
+Nodes:
+- ["LiWei", "Person", {"age":25, "job":"律师"、"name":"李薇"}]
+- ["Bob", "Person", {"job":"记者","name":"Bob"}]
+- ["liwei.com", "Website", {"url": "www.liwei.com"}]
+- ["bob.com", "Website", {"url": "www.bob.com"}]
+Relationships:
+- ["LiWei", "roommate", "Bob", {"start":2021}]
+- ["LiWei", "owns", "liwei.com", {}]
+- ["Bob", "owns", "bob.com", {}]
+```
+
+AI Output
+
+```text
+Nodes:
+- ["HaohanTech", "Company", {"name":"浩瀚科技"}]
+- ["LiWei", "Person", {"job":"总裁", "name":"李伟"}]
+- ["R&D", "Department", {"name":"研发部"}]
+- ["Marketing", "Department", {"name":"市场部"}]
+- ["HR", "Department", {"name":"人事部"}]
+- ["Finance", "Department", {"name":"财务部"}]
+- ["ZhangTing", "Person", {"job":"研发部部长", "name":"张婷"}]
+- ["HanMei", "Person", {"job":"市场部部长", "name":"韩梅"}]
+- ["ZhaoQiang", "Person", {"job":"人事部部长", "name":"赵强"}]
+- ["SunHao", "Person", {"job":"财务部部长", "name":"孙浩"}]
+- ["StarCloudBrowser", "Product", {"name":"星云浏览器"}]
+- ["Huawei", "Company", {"name":"华为"}]
+- ["Xiaomi", "Company", {"name":"小米"}]
+- ["OPPO", "Company", {"name":"OPPO"}]
+- ["JingdongMall", "Company", {"name":"京东商城"}]
+
+Relationships:
+- ["LiWei", "works_for", "HaohanTech", {"position":"总裁"}]
+- ["ZhangTing", "works_for", "HaohanTech", {"position":"研发部部长"}]
+- ["HanMei", "works_for", "HaohanTech", {"position":"市场部部长"}]
+- ["ZhaoQiang", "works_for", "HaohanTech", {"position":"人事部部长"}]
+- ["SunHao", "works_for", "HaohanTech", {"position":"财务部部长"}]
+- ["HaohanTech", "has_department", "R&D", {}]
+- ["HaohanTech", "has_department", "Marketing", {}]
+- ["HaohanTech", "has_department", "HR", {}]
+- ["HaohanTech", "has_department", "Finance", {}]
+- ["HaohanTech", "produces", "StarCloudBrowser", {}]
+- ["Huawei", "uses", "StarCloudBrowser", {}]
+- ["Xiaomi", "uses", "StarCloudBrowser", {}]
+- ["OPPO", "uses", "StarCloudBrowser", {}]
+- ["HaohanTech", "partners_with", "JingdongMall", {}]
+- ["LiWei", "collaborates_with", "ZhangTing", {}]
+- ["LiWei", "collaborates_with", "HanMei", {}]
+- ["ZhaoQiang", "collaborates_with", "SunHao", {}]
+```
+
+extracted json data
+
+```json
+{
+  "action": "kg",
+  "data": {
+    "nodes": [
+      {
+        "name": "HaohanTech",
+        "label": "Company",
+        "properties": {
+          "name": "浩瀚科技"
+        }
+      },
+      {
+        "name": "LiWei",
+        "label": "Person",
+        "properties": {
+          "job": "总裁",
+          "name": "李伟"
+        }
+      },
+      {
+        "name": "R&D",
+        "label": "Department",
+        "properties": {
+          "name": "研发部"
+        }
+      },
+      {
+        "name": "Marketing",
+        "label": "Department",
+        "properties": {
+          "name": "市场部"
+        }
+      },
+      {
+        "name": "HR",
+        "label": "Department",
+        "properties": {
+          "name": "人事部"
+        }
+      },
+      {
+        "name": "Finance",
+        "label": "Department",
+        "properties": {
+          "name": "财务部"
+        }
+      },
+      {
+        "name": "ZhangTing",
+        "label": "Person",
+        "properties": {
+          "job": "研发部部长",
+          "name": "张婷"
+        }
+      },
+      {
+        "name": "HanMei",
+        "label": "Person",
+        "properties": {
+          "job": "市场部部长",
+          "name": "韩梅"
+        }
+      },
+      {
+        "name": "ZhaoQiang",
+        "label": "Person",
+        "properties": {
+          "job": "人事部部长",
+          "name": "赵强"
+        }
+      },
+      {
+        "name": "SunHao",
+        "label": "Person",
+        "properties": {
+          "job": "财务部部长",
+          "name": "孙浩"
+        }
+      },
+      {
+        "name": "StarCloudBrowser",
+        "label": "Product",
+        "properties": {
+          "name": "星云浏览器"
+        }
+      },
+      {
+        "name": "Huawei",
+        "label": "Company",
+        "properties": {
+          "name": "华为"
+        }
+      },
+      {
+        "name": "Xiaomi",
+        "label": "Company",
+        "properties": {
+          "name": "小米"
+        }
+      },
+      {
+        "name": "OPPO",
+        "label": "Company",
+        "properties": {
+          "name": "OPPO"
+        }
+      },
+      {
+        "name": "JingdongMall",
+        "label": "Company",
+        "properties": {
+          "name": "京东商城"
+        }
+      }
+    ],
+    "relationships": []
+  }
+}
+```
+
+cypher
+
+```json
+{
+  "action": "cypher",
+  "data": "CALL apoc.load.json("file:/path_to_your_json_file.json") YIELD value AS data\nUNWIND data.nodes AS node\nMERGE (n:Node {name: node.name})\nSET n += node.properties\nSET n: `node.label`\n\nUNWIND data.relationships AS rel\nMATCH (start:Node {name: rel.start}), (end:Node {name: rel.end})\nMERGE (start)-[r:RELATIONSHIP {type: rel.type}]->(end)\nSET r += rel.properties"
+}
+```
+
+```json
+{"nodes": [{"name": "HaohanTech", "label": "Company", "properties": {"name": "浩瀚科技"}}, {"name": "LiWei", "label": "Person", "properties": {"job": "总裁", "name": "李伟"}}, {"name": "ZhangTing", "label": "Person", "properties": {"job": "研发部部长", "name": "张婷"}}, {"name": "HanMei", "label": "Person", "properties": {"job": "市场部部长", "name": "韩梅"}}, {"name": "ZhaoQiang", "label": "Person", "properties": {"job": "人事部部长", "name": "赵强"}}, {"name": "SunHao", "label": "Person", "properties": {"job": "财务部部长", "name": "孙浩"}}, {"name": "XingyunBrowser", "label": "Product", "properties": {"name": "星云浏览器"}}, {"name": "Huawei", "label": "Company", "properties": {"name": "华为"}}, {"name": "Xiaomi", "label": "Company", "properties": {"name": "小米"}}, {"name": "OPPO", "label": "Company", "properties": {"name": "OPPO"}}, {"name": "JingdongMall", "label": "Company", "properties": {"name": "京东商城"}}], "relationships": [{"start": "HaohanTech", "end": "LiWei", "type": "led_by", "properties": {}}, {"start": "HaohanTech", "end": "ZhangTing", "type": "has_department_head", "properties": {"department": "研发部"}}, {"start": "HaohanTech", "end": "HanMei", "type": "has_department_head", "properties": {"department": "市场部"}}, {"start": "HaohanTech", "end": "ZhaoQiang", "type": "has_department_head", "properties": {"department": "人事部"}}, {"start": "HaohanTech", "end": "SunHao", "type": "has_department_head", "properties": {"department": "财务部"}}, {"start": "HaohanTech", "end": "XingyunBrowser", "type": "produces", "properties": {}}, {"start": "Huawei", "end": "XingyunBrowser", "type": "uses", "properties": {}}, {"start": "Xiaomi", "end": "XingyunBrowser", "type": "uses", "properties": {}}, {"start": "OPPO", "end": "XingyunBrowser", "type": "uses", "properties": {}}, {"start": "HaohanTech", "end": "JingdongMall", "type": "cooperates_with", "properties": {}}, {"start": "LiWei", "end": "ZhangTing", "type": "communicates_with", "properties": {}}, {"start": "LiWei", "end": "HanMei", "type": "communicates_with", "properties": {}}, {"start": "LiWei", "end": "ZhaoQiang", "type": "communicates_with", "properties": {}}, {"start": "LiWei", "end": "SunHao", "type": "communicates_with", "properties": {}}]}
+```
