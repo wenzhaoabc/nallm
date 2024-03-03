@@ -1,9 +1,11 @@
+from openai import OpenAI
 import llms
+import json
 
 
 def openai_llm_test(stream: bool = False):
-    openai = llms.get_llm("gpt-4-1106-preview")
-    print(openai.max_tokens())
+    openai = llms.get_llm("glm-3-turbo")
+    # print(openai.max_tokens())
     messages = [
         {
             "role": "user",
@@ -18,4 +20,19 @@ def openai_llm_test(stream: bool = False):
         print(response)
 
 
-openai_llm_test(stream=True)
+# openai_llm_test(stream=True)
+
+
+def openai_llm_test2(stream: bool = False):
+    client = OpenAI(api_key="sk-aD8IBWtgiXeEjgKpscNWoy7JvTPXTgRljhxuZvfRKOWYJ9N5",
+                    base_url="http://region-3.seetacloud.com:60270/v1")
+    completions = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": "Do you know what you are doing?"}]
+    )
+    print(completions.model_dump_json())
+    c = completions.choices[0].message.content
+    print(c)
+
+
+openai_llm_test2()

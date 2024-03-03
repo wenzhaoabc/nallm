@@ -1,11 +1,25 @@
-from fastapi import FastAPI, WebSocket, UploadFile, File
-from components.kg_cypher import KG2Cypher
+import json
+import time
+from typing import Optional
+
+from fastapi import FastAPI, WebSocket, UploadFile
+from pydantic import BaseModel
 
 import llms
 from components.enums import LanguageEnum
 from components.extract_kg import ExtractKG
+from components.kg_clean import DataDisambiguation
+from components.kg_cypher import KG2Cypher
 
 app = FastAPI()
+
+
+class T2CModel(BaseModel):
+    filename: str
+    language: LanguageEnum = LanguageEnum.zh
+    model: str = "gpt-3.5"
+    prompt: Optional[str] = None
+    example: Optional[str] = None
 
 
 @app.post("/upload")
@@ -15,6 +29,30 @@ async def create_files(file: UploadFile):
         f.write(contents)
 
     return {"filename": file.filename}
+
+
+@app.post("/t2c")
+async def test_2_cypher(body: T2CModel):
+    llm = llms.get_llm(body.model)
+    text = ""
+    with open("static/" + body.filename, "r", encoding="utf-8") as f:
+        text = f.read()
+    print(body)
+    print(text)
+    # 提取知识图谱
+    e = ExtractKG(llm=llm, language=body.language, example=body.example)
+    kg = e.extract(text)
+    # 对知识图谱中的节点和关系进行国过滤清洗
+    cleaner = DataDisambiguation(llm=llm)
+    kg = cleaner.disambiguate(kg)
+    kg_filename = str(int(time.time())) + ".json"
+    with open("kgs/" + kg_filename, "w", encoding="utf-8") as f:
+        json.dump(kg, f, indent=4)
+    # 知识图谱转为适用于neo4j的cypher脚本
+    t = KG2Cypher(llm=llm)
+    cypher = t.process(kg)
+
+    return {"cypher": cypher, "kg": kg}
 
 
 @app.websocket("/t2c")

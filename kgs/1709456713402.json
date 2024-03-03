@@ -1,0 +1,402 @@
+{
+  "nodes": [
+    {
+      "name": "星云浏览器",
+      "label": "产品",
+      "properties": {
+        "名称": "星云浏览器"
+      }
+    },
+    {
+      "name": "李伟",
+      "label": "人",
+      "properties": {
+        "职位": "总裁",
+        "特点": "远见卓识",
+        "姓名": "李伟"
+      }
+    },
+    {
+      "name": "张婷",
+      "label": "人",
+      "properties": {
+        "职位": "研发部部长",
+        "姓名": "张婷"
+      }
+    },
+    {
+      "name": "韩梅",
+      "label": "人",
+      "properties": {
+        "职位": "市场部部长",
+        "姓名": "韩梅"
+      }
+    },
+    {
+      "name": "赵强",
+      "label": "人",
+      "properties": {
+        "职位": "人事部部长",
+        "姓名": "赵强"
+      }
+    },
+    {
+      "name": "孙浩",
+      "label": "人",
+      "properties": {
+        "职位": "财务部部长",
+        "姓名": "孙浩"
+      }
+    },
+    {
+      "name": "王磊",
+      "label": "人",
+      "properties": {
+        "职位": "算法组组长",
+        "姓名": "王磊"
+      }
+    },
+    {
+      "name": "陈燕",
+      "label": "人",
+      "properties": {
+        "职位": "软件开发组组长",
+        "姓名": "陈燕"
+      }
+    },
+    {
+      "name": "周杰",
+      "label": "人",
+      "properties": {
+        "职位": "人工智能小组组长",
+        "姓名": "周杰"
+      }
+    },
+    {
+      "name": "王晓丽",
+      "label": "人",
+      "properties": {
+        "职位": "市场策划师",
+        "姓名": "王晓丽"
+      }
+    },
+    {
+      "name": "林涛",
+      "label": "人",
+      "properties": {
+        "职位": "数据分析师",
+        "姓名": "林涛"
+      }
+    },
+    {
+      "name": "刘倩",
+      "label": "人",
+      "properties": {
+        "职位": "客户经理",
+        "姓名": "刘倩"
+      }
+    },
+    {
+      "name": "赵天宇",
+      "label": "人",
+      "properties": {
+        "职位": "媒介专员",
+        "姓名": "赵天宇"
+      }
+    },
+    {
+      "name": "徐杰",
+      "label": "人",
+      "properties": {
+        "职位": "网络营销师",
+        "姓名": "徐杰"
+      }
+    },
+    {
+      "name": "孙玲",
+      "label": "人",
+      "properties": {
+        "职位": "招聘专员",
+        "姓名": "孙玲"
+      }
+    },
+    {
+      "name": "马超",
+      "label": "人",
+      "properties": {
+        "职位": "员工关系主管",
+        "姓名": "马超"
+      }
+    },
+    {
+      "name": "杜慧",
+      "label": "人",
+      "properties": {
+        "职位": "会计师",
+        "姓名": "杜慧"
+      }
+    },
+    {
+      "name": "周雷",
+      "label": "人",
+      "properties": {
+        "职位": "财务分析师",
+        "姓名": "周雷"
+      }
+    },
+    {
+      "name": "浩瀚科技",
+      "label": "公司",
+      "properties": {
+        "名称": "浩瀚科技"
+      }
+    },
+    {
+      "name": "京东商城",
+      "label": "合作伙伴",
+      "properties": {
+        "名称": "京东商城"
+      }
+    },
+    {
+      "name": "华为",
+      "label": "客户",
+      "properties": {
+        "名称": "华为"
+      }
+    },
+    {
+      "name": "小米",
+      "label": "客户",
+      "properties": {
+        "名称": "小米"
+      }
+    },
+    {
+      "name": "OPPO",
+      "label": "客户",
+      "properties": {
+        "名称": "OPPO"
+      }
+    },
+    {
+      "name": "算法组",
+      "label": "小组",
+      "properties": {
+        "名称": "算法组"
+      }
+    },
+    {
+      "name": "软件开发组",
+      "label": "小组",
+      "properties": {
+        "名称": "软件开发组"
+      }
+    },
+    {
+      "name": "人工智能小组",
+      "label": "小组",
+      "properties": {
+        "名称": "人工智能小组"
+      }
+    },
+    {
+      "name": "研发部",
+      "label": "部门",
+      "properties": {
+        "名称": "研发部"
+      }
+    },
+    {
+      "name": "市场部",
+      "label": "部门",
+      "properties": {
+        "名称": "市场部"
+      }
+    },
+    {
+      "name": "人事部",
+      "label": "部门",
+      "properties": {
+        "名称": "人事部"
+      }
+    },
+    {
+      "name": "财务部",
+      "label": "部门",
+      "properties": {
+        "名称": "财务部"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "start": "孙浩",
+      "end": "浩瀚科技",
+      "type": "为研发和营销提供资金保障",
+      "properties": {}
+    },
+    {
+      "start": "林涛",
+      "end": "星云浏览器",
+      "type": "为推广策略提供数据支持",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "研发部",
+      "type": "拥有部门",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "市场部",
+      "type": "拥有部门",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "人事部",
+      "type": "拥有部门",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "财务部",
+      "type": "拥有部门",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "星云浏览器",
+      "type": "拥有产品",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "华为",
+      "type": "合作客户",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "小米",
+      "type": "合作客户",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "OPPO",
+      "type": "合作客户",
+      "properties": {}
+    },
+    {
+      "start": "浩瀚科技",
+      "end": "京东商城",
+      "type": "合作伙伴",
+      "properties": {}
+    },
+    {
+      "start": "研发部",
+      "end": "算法组",
+      "type": "包含小组",
+      "properties": {}
+    },
+    {
+      "start": "研发部",
+      "end": "软件开发组",
+      "type": "包含小组",
+      "properties": {}
+    },
+    {
+      "start": "研发部",
+      "end": "人工智能小组",
+      "type": "包含小组",
+      "properties": {}
+    },
+    {
+      "start": "算法组",
+      "end": "王磊",
+      "type": "负责人",
+      "properties": {}
+    },
+    {
+      "start": "软件开发组",
+      "end": "陈燕",
+      "type": "负责人",
+      "properties": {}
+    },
+    {
+      "start": "人工智能小组",
+      "end": "周杰",
+      "type": "负责人",
+      "properties": {}
+    },
+    {
+      "start": "市场部",
+      "end": "王晓丽",
+      "type": "包含成员",
+      "properties": {}
+    },
+    {
+      "start": "市场部",
+      "end": "林涛",
+      "type": "包含成员",
+      "properties": {}
+    },
+    {
+      "start": "市场部",
+      "end": "刘倩",
+      "type": "包含成员",
+      "properties": {}
+    },
+    {
+      "start": "市场部",
+      "end": "赵天宇",
+      "type": "包含成员",
+      "properties": {}
+    },
+    {
+      "start": "市场部",
+      "end": "徐杰",
+      "type": "包含成员",
+      "properties": {}
+    },
+    {
+      "start": "李伟",
+      "end": "张婷",
+      "type": "与部门经理沟通",
+      "properties": {}
+    },
+    {
+      "start": "李伟",
+      "end": "韩梅",
+      "type": "与部门经理沟通",
+      "properties": {}
+    },
+    {
+      "start": "李伟",
+      "end": "赵强",
+      "type": "与部门经理沟通",
+      "properties": {}
+    },
+    {
+      "start": "李伟",
+      "end": "孙浩",
+      "type": "与部门经理沟通",
+      "properties": {}
+    },
+    {
+      "start": "杜慧",
+      "end": "财务部",
+      "type": "负责部门",
+      "properties": {}
+    },
+    {
+      "start": "周雷",
+      "end": "财务部",
+      "type": "负责部门",
+      "properties": {}
+    }
+  ]
+}

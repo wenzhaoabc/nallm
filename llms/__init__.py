@@ -17,6 +17,7 @@ models = [
     "qwen-max-1201",  # 6K
     "qwen-max-longcontext",  # 28K
     "chatglm_turbo",
+    "glm3"
 ]
 
 
@@ -31,6 +32,6 @@ def get_llm(model_name: str = "glm-4", temperature: float = 0.5) -> object:
             temperature=temperature,
         )
     elif model_name.startswith("glm"):
-        return ZhiPuLlmRetrieval()
+        return ZhiPuLlmRetrieval(api_key="", base_url="http://region-3.seetacloud.com:60270/", model=model_name, )
     else:
         return None
