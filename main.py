@@ -1,8 +1,9 @@
+import datetime
 import json
-import time
 from typing import Optional
 
-from fastapi import FastAPI, WebSocket, UploadFile
+from flask import Flask, render_template, request, jsonify
+# from fastapi import FastAPI, WebSocket, UploadFile
 from pydantic import BaseModel
 
 import llms
@@ -10,86 +11,140 @@ from components.enums import LanguageEnum
 from components.extract_kg import ExtractKG
 from components.kg_clean import DataDisambiguation
 from components.kg_cypher import KG2Cypher
+from components.oss_file import upload_to_oss, download_from_oss
+from graphdb import Neo4JDB
+from graphdb.text_cypher import TextCypher
+from graphdb.summarize_result import SummarizeCypherResult
 
-app = FastAPI()
+app = Flask(__name__)
 
 
 class T2CModel(BaseModel):
-    filename: str
+    file_url: str
     language: LanguageEnum = LanguageEnum.zh
     model: str = "gpt-3.5"
     prompt: Optional[str] = None
     example: Optional[str] = None
 
 
-@app.post("/upload")
-async def create_files(file: UploadFile):
-    contents = await file.read()
-    with open(f"static/{file.filename}", "wb") as f:
-        f.write(contents)
+@app.route("/upload", methods=["GET", "POST"])
+def create_files():
+    file = request.files.get("file")
+    if file is None:
+        return 400, json.dumps({"error": "no file"})
 
-    return {"filename": file.filename}
+    file_name = file.filename
+    file_type = file_name.split(".")[-1] or "txt"
+
+    timestamp_str = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+    content = file.stream.read()
+    filename = f"{timestamp_str}_origin.{file_type}"
+    file_url = upload_to_oss(filename, content)
+
+    return jsonify({"url": file_url})
 
 
 @app.post("/t2c")
-async def test_2_cypher(body: T2CModel):
+def test_2_cypher():
+    body_json = request.get_json()
+    body = T2CModel(**body_json)
+
     llm = llms.get_llm(body.model)
-    text = ""
-    with open("static/" + body.filename, "r", encoding="utf-8") as f:
-        text = f.read()
-    print(body)
-    print(text)
+    text = download_from_oss(file_url=body.file_url)
+
     # 提取知识图谱
     e = ExtractKG(llm=llm, language=body.language, example=body.example)
     kg = e.extract(text)
-    # 对知识图谱中的节点和关系进行国过滤清洗
+    # 对知识图谱中的节点和关系进行过滤清洗
     cleaner = DataDisambiguation(llm=llm)
     kg = cleaner.disambiguate(kg)
-    kg_filename = str(int(time.time())) + ".json"
-    with open("kgs/" + kg_filename, "w", encoding="utf-8") as f:
-        json.dump(kg, f, indent=4)
+
+    timestamp_str = datetime.datetime.now().strftime("%d%m%Y%H%M%S")
+    kg_filename = f"{timestamp_str}_kg.json"
+    file_oss_url = upload_to_oss(kg_filename, json.dumps(kg))
+
     # 知识图谱转为适用于neo4j的cypher脚本
-    t = KG2Cypher(llm=llm)
+    t = KG2Cypher(llm=llm, file_url=file_oss_url)
     cypher = t.process(kg)
 
-    return {"cypher": cypher, "kg": kg}
+    db = Neo4JDB()
+    execute_results = []
+    for k, v in cypher.items():
+        res = db.load_cypher(v)
+        execute_results.append(res)
+
+    return jsonify({"cypher": cypher, "kg": kg, "kg_url": file_oss_url, "execute_results": execute_results})
 
 
-@app.websocket("/t2c")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    await websocket.send_json({"type": "debug", "message": "connected"})
+@app.route("/execute_cypher", methods=["POST"])
+def execute_cypher():
+    cypher = request.data.decode()
+    # cypher = body_json.get("cypher")
+    if cypher is None:
+        return 400, jsonify({"error": "no cypher"})
+    db = Neo4JDB()
+    execute_result = db.query(cypher)
+    return jsonify({"cypher": cypher, "message": "OK", "execute_result": execute_result})
 
-    while True:
-        data = await websocket.receive_json()
-        msg_type = data["action"]
-        request_json = data["data"]
-        if msg_type == "kg":
-            await websocket.send_json({"action": "acc", "data": request_json})
-            filename = request_json.get("filename", "test.txt")
-            modelname = request_json.get("modelname", "gpt-4")
-            llm = llms.get_llm(model_name=modelname)
-            schema = request_json.get("schema", None)
-            example = request_json.get("example", None)
-            e = ExtractKG(llm, LanguageEnum.zh, example=example)
 
-            with open("static/" + filename, "r", encoding="utf8") as f:
-                result = e.extract(f.read())
-                await websocket.send_json({"action": "kg", "data": result})
+@app.route("/load_json", methods=["POST"])
+def load_json_to_neo4j():
+    body_json = request.get_json()
+    file_url = body_json["file_url"]
+    driver = Neo4JDB()
+    res = driver.import_json(file_url=file_url)
+    return jsonify(res)
 
-            c = KG2Cypher(llm=llm, schema=None)
-            cypher = c.process(result)
-            print(cypher)
 
-            await websocket.send_json({"action": "cypher", "data": cypher})
+@app.route("/schema", methods=["GET"])
+def get_neo4j_schema():
+    driver = Neo4JDB()
+    res = driver.get_schema()
+    return res
 
-        elif msg_type == "start":
-            await websocket.send_json(
-                {"type": "extract", "message": "start extract data ===="}
-            )
+
+@app.route("/question_2_cypher", methods=["POST"])
+def text_2_cypher():
+    body_json = request.get_json()
+    question = body_json["question"]
+    model = body_json["model"]
+    llm = llms.get_llm(model, temperature=0.1)
+    db = Neo4JDB()
+
+    t2c = TextCypher(llm=llm, db=db)
+    res = t2c.construct_cypher_query(question, history=[])
+
+    summary = SummarizeCypherResult(llm)
+    answer = summary.run(question, results=res["output"])
+    res.update({"answer": answer})
+    return jsonify(res)
+
+
+@app.route("/answer_question", methods=["POST"])
+def refactor_questions_llm():
+    body_json = request.get_json()
+    question = body_json["question"]
+    model = body_json["model"]
+    llm = llms.get_llm(model, temperature=0.1)
+    db = Neo4JDB()
+    t2c = TextCypher(llm=llm, db=db)
+
+
+@app.route("/optimize_question", methods=["POST"])
+def optimize_question_with_kg():
+    body_json = request.get_json()
+    question = body_json["question"]
+    model = body_json["model"]
+    llm = llms.get_llm(model, temperature=0.1)
+    db = Neo4JDB()
+    t2c = TextCypher(llm=llm, db=db)
+    res = t2c.optimize_question(question, history=[], more_data=True)
+
+    return jsonify({"optimized": res})
 
 
 if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("main:app", port=8080, host="127.0.0.1", reload=True)
+    app.run(host="127.0.0.1", port=8080, debug=True, load_dotenv=True)
+    # import uvicorn
+    # uvicorn.run("main:app", port=8080, host="127.0.0.1", reload=True)

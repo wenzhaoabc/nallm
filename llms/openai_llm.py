@@ -4,7 +4,7 @@ from openai import OpenAI
 from mylog import log
 
 
-class OpenAILlmRetrieval:
+class LLM:
     def __init__(self, api_key: str, base_url: str, model: str, temperature: float = 0.5):
         self.model = model
         self.temperature = temperature
@@ -19,7 +19,7 @@ class OpenAILlmRetrieval:
         log.info(completes)
         return completes.choices[0].message.content
 
-    def generate_stream(self, messages: list[dict], callback: Callable[[str], any]) -> str:
+    def generate_stream(self, messages: list[dict], callback: Callable[[str], any] | None) -> str:
         completes = self.client.chat.completions.create(
             model=self.model,
             messages=messages,
@@ -30,7 +30,8 @@ class OpenAILlmRetrieval:
         result = ""
         for chunk in completes:
             if chunk.choices[0].delta.content is not None:
-                callback(chunk.choices[0].delta.content)
+                if callback:
+                    callback(chunk.choices[0].delta.content)
                 result += chunk.choices[0].delta.content
 
         return result
