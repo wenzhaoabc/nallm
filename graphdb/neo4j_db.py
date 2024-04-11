@@ -1,8 +1,6 @@
 import os
-import re
 
 from neo4j import GraphDatabase
-from .cyphers import nodes_cypher, relationships_cypher
 
 node_properties_query = """
 CALL apoc.meta.data()
@@ -46,16 +44,14 @@ class Neo4JDB:
         self.auth = (os.environ.get("NEO4J_USER"), os.environ.get("NEO4J_PASSWD"))
         self.schema = ""
 
-    def load_cypher(self, cypher: str) -> dict:
+    def load_cypher(self, cypher: str):
         with GraphDatabase.driver(self.uri, auth=self.auth) as driver:
-            records, summary, keys = driver.execute_query(cypher)
-        res = {"records": [r.data() for r in records], "keys": keys}
-        return res
+            driver.execute_query(cypher)
 
-    def query(self, cypher: str, params: dict | None = None) -> list:
+    def query(self, cypher: str):
         with GraphDatabase.driver(self.uri, auth=self.auth) as driver:
-            result, _, _ = driver.execute_query(cypher, parameters_=params)
-        return [r.data() for r in result]
+            result, _, _ = driver.execute_query(cypher)
+        return result
 
     def get_schema(self):
         with GraphDatabase.driver(self.uri, auth=self.auth):
@@ -75,22 +71,3 @@ class Neo4JDB:
         """
         )
         return data[0]["output"]
-
-    def clean_db(self):
-        self.load_cypher(
-            """
-            MATCH (n) DETACH DELETE n
-            """
-        )
-
-    def import_json(self, file_url: str):
-        nodes_script = re.sub(r'(?<=apoc.load.json\(").+?(?="\))', file_url, nodes_cypher)
-        relations_script = re.sub(r'(?<=apoc.load.json\(").+?(?="\))', file_url, relationships_cypher)
-        with GraphDatabase.driver(self.uri, auth=self.auth) as driver:
-            record_n = driver.execute_query(nodes_script)
-            print("node", record_n)
-            nodes_count = record_n[0][0][0]
-            record_r = driver.execute_query(relations_script)
-            print("relationship", record_r)
-            relation_count = record_r[0][0][0]
-            return {"nodes_count": nodes_count, "relationship_count": relation_count}

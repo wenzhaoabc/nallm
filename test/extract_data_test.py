@@ -5,6 +5,7 @@ import os
 
 sys.path.insert(0, "/Users/I745173/Documents/workspace/projects/nallm/nallm")
 
+
 from components.extract_data import (
     nodes_text_to_list_of_dict,
     relationships_text_to_list_of_dict,
