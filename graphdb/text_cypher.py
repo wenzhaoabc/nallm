@@ -8,6 +8,7 @@ from llms.openai_llm import LLM
 from .neo4j_db import Neo4JDB
 from .cypher_examples import get_fewshot_examples
 from .summarize_result import SummarizeCypherResult
+from utils import log
 
 choose_more_info_prompt = """
 You have only two choices, just give the optimized question or get more information about the Neo4j database.
@@ -18,6 +19,7 @@ If you choose to the back, please output "I need more information" directly.
 question_optimize_prompt = """
 Your task is to optimize the given question according to schema and properties of the Neo4j database.
 The optimized question will be used in Retrieval-Augmented Generation application.
+Please give the optimized question directly.
 """
 
 
@@ -25,11 +27,12 @@ class TextCypher:
     def __init__(self,
                  llm: LLM,
                  db: Neo4JDB,
-                 example: str | None = None,
+                 use_example: bool = True,
                  use_schema: bool = True):
         self.llm = llm
         self.db = db
-        if example is None:
+        self.use_example = use_example
+        if self.use_example:
             self.example = get_fewshot_examples(
                 openai_api_key=os.environ["OPENAI_API_KEY"],
                 base_url=os.environ["OPENAI_BASEURL"],
@@ -50,7 +53,7 @@ class TextCypher:
             Schema:
             {self.schema}
             """
-        if self.example:
+        if self.use_example:
             system += f"""
             You need to follow these Cypher examples when you are constructing a Cypher statement
             {self.example}
@@ -61,6 +64,7 @@ class TextCypher:
         messages = [{"role": "system", "content": self.generate_system_message()}]
         messages.extend(history)
         messages.append({"role": "user", "content": question})
+        log.info("Constructing Cypher: messages: %s", messages)
         raw_res = self.llm.generate(messages)
         return raw_res
 
@@ -72,6 +76,7 @@ class TextCypher:
         if match is None:
             return {"output": [{"message": cypher}], "generated_cypher": None, "OK": False}
         extracted_cypher = match.group(1)
+        log.info("Text To Cypher: extracted cypher : %s", extracted_cypher)
 
         output = self.db.query(extracted_cypher)
 
@@ -88,13 +93,14 @@ class TextCypher:
                 output[0].get("message"), syntax_messages, heal_cypher=False
             )
 
+        log.info("Text To Cypher: execute cypher result : %s", output)
         return {
             "output": output,
             "generated_cypher": extracted_cypher,
             "OK": True,
         }
 
-    def optimize_question(self, question: str, history: list = None, more_data: bool = False) -> str:
+    def optimize_question(self, question: str, history: list = None, more_data: bool = True) -> str:
         system_message = f"""
         {question_optimize_prompt}
         Database schema:
@@ -109,6 +115,7 @@ class TextCypher:
             else:
                 detail_information = None
 
+            log.info("Optimize Question: detail information: %s", detail_information)
             system_message = f"""
             {question_optimize_prompt}
             Database schema:

@@ -1,7 +1,6 @@
 import os
 
 from llms.openai_llm import LLM
-from llms.zhipu_llm import ZhiPuLlmRetrieval
 
 models = [
     "gpt-4-0125-preview",

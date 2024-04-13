@@ -2,8 +2,7 @@ import datetime
 import json
 from typing import Optional
 
-from flask import Flask, render_template, request, jsonify
-# from fastapi import FastAPI, WebSocket, UploadFile
+from flask import Flask, request, jsonify
 from pydantic import BaseModel
 
 import llms
@@ -11,10 +10,10 @@ from components.enums import LanguageEnum
 from components.extract_kg import ExtractKG
 from components.kg_clean import DataDisambiguation
 from components.kg_cypher import KG2Cypher
-from components.oss_file import upload_to_oss, download_from_oss
 from graphdb import Neo4JDB
-from graphdb.text_cypher import TextCypher
 from graphdb.summarize_result import SummarizeCypherResult
+from graphdb.text_cypher import TextCypher
+from utils import upload_to_oss, download_from_oss
 
 app = Flask(__name__)
 
@@ -138,7 +137,7 @@ def optimize_question_with_kg():
     model = body_json["model"]
     llm = llms.get_llm(model, temperature=0.1)
     db = Neo4JDB()
-    t2c = TextCypher(llm=llm, db=db)
+    t2c = TextCypher(llm=llm, db=db, use_example=True)
     res = t2c.optimize_question(question, history=[], more_data=True)
 
     return jsonify({"optimized": res})

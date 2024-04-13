@@ -96,9 +96,11 @@ class Text2Cypher:
         return cypher
 
     def run(
-            self, question: str, history: List = [], heal_cypher: bool = True
+            self, question: str, history=None, heal_cypher: bool = True
     ) -> Dict[str, Union[str, List[Dict[str, Any]]]]:
         # Add prefix if not part of self-heal loop
+        if history is None:
+            history = []
         final_question = (
             "Question to be converted to Cypher: " + question
             if heal_cypher

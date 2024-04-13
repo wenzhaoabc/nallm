@@ -5,7 +5,7 @@ from components.extract_data import (
 )
 from components.prompts import to_kg_system_prompt, to_kg_user_prompt
 from components.enums import LanguageEnum
-from mylog import log
+from utils import log
 
 
 class ExtractKG:
@@ -40,9 +40,9 @@ class ExtractKG:
 
     def extract(self, content: str) -> dict[str, list]:
         allowed_tokens = (
-            self.llm.max_tokens()
-            - self.get_token_num(to_kg_system_prompt(self.language))
-            - self.get_token_num(to_kg_user_prompt("", language=self.language))
+                self.llm.max_tokens()
+                - self.get_token_num(to_kg_system_prompt(self.language))
+                - self.get_token_num(to_kg_user_prompt("", language=self.language))
         )
         chunk_size = (
             allowed_tokens // 2

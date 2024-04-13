@@ -1,7 +1,7 @@
 from typing import Callable
 
 from openai import OpenAI
-from mylog import log
+from utils import log
 
 
 class LLM:
@@ -16,8 +16,21 @@ class LLM:
             messages=messages,
             temperature=self.temperature
         )
-        log.info(completes)
-        return completes.choices[0].message.content
+        response = completes.choices[0].message.content
+        log.info(f"Chat With [{self.model}]. User: {messages}; Response: {response}")
+        return response
+
+    def chat(self, content: str) -> str:
+        completes = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "user", "content": content}
+            ],
+            temperature=self.temperature
+        )
+        response = completes.choices[0].message.content
+        log.info(f"Chat With [{self.model}]. User: {content}; Response: {response}")
+        return response
 
     def generate_stream(self, messages: list[dict], callback: Callable[[str], any] | None) -> str:
         completes = self.client.chat.completions.create(
@@ -33,7 +46,7 @@ class LLM:
                 if callback:
                     callback(chunk.choices[0].delta.content)
                 result += chunk.choices[0].delta.content
-
+        log.info(f"Chat With [{self.model}]. User: {messages}; Response: {result}")
         return result
 
     def max_tokens(self):
