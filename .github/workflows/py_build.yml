@@ -2,8 +2,6 @@ name: Auto Build
 
 on:
   push:
-    branches:
-      - waragent
   pull_request:
     branches:
       - waragent

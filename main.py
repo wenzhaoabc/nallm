@@ -144,6 +144,6 @@ def optimize_question_with_kg():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True, load_dotenv=True)
+    app.run(host="0.0.0.0", port=8080, debug=True, load_dotenv=True)
     # import uvicorn
     # uvicorn.run("main:app", port=8080, host="127.0.0.1", reload=True)
